@@ -6,27 +6,42 @@ if (!BASE_URL) {
   throw new Error('Missing NEXT_PUBLIC_API_BASE_URL in .env.local');
 }
 
-// fetch all products
 export async function fetchProducts(): Promise<Product[]> {
-  const res = await fetch(`${BASE_URL}/online-shop`, { cache: 'no-store' });
+  const url = `${BASE_URL}/online-shop`;
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch products');
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+
+    if (!res.ok) {
+      const body = await res.text();
+      console.error('fetchProducts failed:', res.status, res.statusText, body);
+      return [];
+    }
+
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error('fetchProducts crashed:', error);
+    return [];
   }
-  return res.json();
 }
 
-// fetch single product with id
-export async function fetchProduct(id: string): Promise<Product> {
-  console.log('BASE_URL:', BASE_URL);
-  console.log('ID:', id);
+export async function fetchProduct(id: string): Promise<Product | null> {
+  const url = `${BASE_URL}/online-shop/${id}`;
 
-  const res = await fetch(`${BASE_URL}/online-shop/${id}`, {
-    cache: 'no-store',
-  });
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch product');
+    if (!res.ok) {
+      const body = await res.text();
+      console.error('fetchProduct failed:', res.status, res.statusText, body);
+      return null;
+    }
+
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error('fetchProduct crashed:', error);
+    return null;
   }
-  return res.json();
 }

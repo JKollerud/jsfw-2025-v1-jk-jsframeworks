@@ -24,12 +24,18 @@ export default function ProductCard({ product }: Props) {
       )}
 
       <div className="relative aspect-square w-full overflow-hidden rounded-md bg-gray-100">
-        <Image
-          src={product.imageUrl}
-          alt={product.title}
-          fill
-          className="object-cover transition group-hover:scale-105"
-        />
+        {product.image?.url ? (
+          <Image
+            src={product.image.url}
+            alt={product.image.alt || product.title}
+            fill
+            className="object-cover transition group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-sm text-gray-400">
+            No image
+          </div>
+        )}
       </div>
       <div className="mt-3 space-y-1">
         <h3 className="line-clamp-1 font-medium text-black">{product.title}</h3>

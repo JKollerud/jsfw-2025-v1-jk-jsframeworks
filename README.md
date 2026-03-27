@@ -41,7 +41,7 @@ GET /online-shop/<id>
   - Original price and discounted price
   - Rating
   - Reviews
-  - Includes an Add to Cart button.0
+  - Includes an Add to Cart button.
 
 ### Search Functionality
 
@@ -145,10 +145,12 @@ npm install
 
 3. Environment Variables
 
-Create a ".env.local" file in the root of the project.
+Create a `.env.local` file in the root of the project based on the provided `.env.example` file.
+
+This project uses the Noroff v2 API.
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=https://api.noroff.dev/api/v1
+NEXT_PUBLIC_API_BASE_URL=https://v2.api.noroff.dev
 ```
 
 4. Run the development server
@@ -174,7 +176,7 @@ Steps:
 3. Add the environment variable:
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=https://api.noroff.dev/api/v1
+NEXT_PUBLIC_API_BASE_URL=https://v2.api.noroff.dev
 ```
 
 4. Deploy.
@@ -191,4 +193,11 @@ GET /online-shop/<id>
 ```
 
 Documentation:
+
 [f.dev/](https://docs.noroff.dev/)
+
+### Author
+
+Created as part of the JavaScript Frameworks course assignment.
+
+Student: Joakim Kollerud

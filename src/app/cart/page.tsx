@@ -68,7 +68,7 @@ export default function CartPage() {
             <p className="text-lg font-semibold">Total: {formatPrice(total)}</p>
             <button
               onClick={handleCheckout}
-              className="rouned-md bg-black px-4 py-2 text-white hover:opacity-90"
+              className="rounded-md bg-black px-4 py-2 text-white shadow-sm transition duration-200 hover:bg-gray-800 hover:shadow-md hover:scale-105 active:scale-95"
             >
               Checkout
             </button>
