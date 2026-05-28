@@ -33,7 +33,7 @@ export default function CartPage() {
                 key={product.id}
                 className="flex items-center gap-4 rounded-lg border bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
               >
-                <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-gray-100">
                   {product.image?.url ? (
                     <Image
                       src={product.image.url}
