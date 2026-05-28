@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useMemo, useReducer } from 'react';
 import type { CartItem, CartState, Product } from '@/lib/types';
+import { getEffectivePrice } from '@/lib/utils';
 
 type CartContextValue = {
   items: CartItem[];
@@ -81,25 +82,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const total = useMemo(() => {
     return state.items.reduce((sum, item) => {
-      const priceToUse =
-        item.product.discountedPrice < item.product.price
-          ? item.product.discountedPrice
-          : item.product.price;
-
-      return sum + priceToUse * item.quantity;
+      return sum + getEffectivePrice(item.product) * item.quantity;
     }, 0);
   }, [state.items]);
 
-  const value: CartContextValue = {
-    items: state.items,
-    itemCount,
-    total,
-    addToCart: (product) => dispatch({ type: 'ADD', product }),
-    removeFromCart: (productId) => dispatch({ type: 'REMOVE', productId }),
-    setQuantity: (productId, quantity) =>
-      dispatch({ type: 'SET_QTY', productId, quantity }),
-    clearCart: () => dispatch({ type: 'CLEAR' }),
-  };
+  const value: CartContextValue = useMemo(
+    () => ({
+      items: state.items,
+      itemCount,
+      total,
+      addToCart: (product) => dispatch({ type: 'ADD', product }),
+      removeFromCart: (productId) => dispatch({ type: 'REMOVE', productId }),
+      setQuantity: (productId, quantity) =>
+        dispatch({ type: 'SET_QTY', productId, quantity }),
+      clearCart: () => dispatch({ type: 'CLEAR' }),
+    }),
+    [state.items, itemCount, total],
+  );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
