@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/lib/types';
-import { formatPrice, getDiscountPercent } from '@/lib/utils';
+import {
+  formatPrice,
+  getDiscountPercent,
+  getEffectivePrice,
+} from '@/lib/utils';
 
 type Props = { product: Product };
 
@@ -43,7 +47,7 @@ export default function ProductCard({ product }: Props) {
           {hasDiscount ? (
             <>
               <span className="font-semibold text-black">
-                {formatPrice(product.discountedPrice)}
+                {formatPrice(getEffectivePrice(product))}
               </span>
               <span className="text-sm text-gray-500 line-through">
                 {formatPrice(product.price)}
@@ -51,7 +55,7 @@ export default function ProductCard({ product }: Props) {
             </>
           ) : (
             <span className="font-semibold text-black">
-              {formatPrice(product.price)}
+              {formatPrice(getEffectivePrice(product))}
             </span>
           )}
         </div>
