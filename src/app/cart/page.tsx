@@ -15,7 +15,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="max-auto max-w-4xl p-4">
+    <main className="mx-auto max-w-4xl p-4">
       <h1 className="text-2xl font-semibold">Your Cart</h1>
       {items.length === 0 ? (
         <div className="mt-6 space-y-3">
@@ -51,7 +51,7 @@ export default function CartPage() {
                       onChange={(e) =>
                         setQuantity(product.id, Number(e.target.value))
                       }
-                      className="w-16 rounded-md borer px-2 py-1 text-black"
+                      className="w-16 rounded-md border px-2 py-1 text-black"
                     />
                     <button
                       onClick={() => removeFromCart(product.id)}
