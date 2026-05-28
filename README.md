@@ -1,203 +1,152 @@
 # Online Shop – React & Next.js
 
-This project is a fully functional online shop built with Next.js (React) and TypeScript. The application fetches products from a REST API and allows users to browse products, view detailed information, search and sort products, manage a shopping cart, complete a checkout flow, and send messages through a validated contact form.
+A fully functional online shop built with Next.js, React, and TypeScript. The application fetches products from a REST API and allows users to browse products, view detailed information, search and sort products, manage a persistent shopping cart, complete a checkout flow, and send messages through a validated contact form.
 
 The application is responsive and works across desktop, tablet, and mobile devices.
+
+🔗 **Live demo:** [js-frameworks-online-shop.netlify.app](https://js-frameworks-online-shop.netlify.app)
+
+---
 
 ## Features
 
 ### Product Listing
 
-- Fetches products from the API endpoint:
-
-```bash
-GET /online-shop
-```
-
-- Displays products in a responsive grid layout.
-
-- Each product card includes:
-  - Product image
-  - Title
-  - Rating
-  - Price
-  - Discounted price (if available)
-  - Discount badge showing percentage.
+- Fetches products from the API and displays them in a responsive grid
+- Each product card includes image, title, rating, price, and a discount badge showing the percentage saved
 
 ### Product Details Page
 
-- Clicking a product navigates to a detailed product page.
+- Clicking a product navigates to a detailed page showing image, description, pricing, rating, and reviews
+- Includes an Add to Cart button
 
-- Fetches data from:
+### Search & Sort
 
-```bash
-GET /online-shop/<id>
-```
-
-- Displays:
-  - Product image
-  - Title
-  - Description
-  - Original price and discounted price
-  - Rating
-  - Reviews
-  - Includes an Add to Cart button.
-
-### Search Functionality
-
-- Users can search for products from the homepage.
-
-- Matching products appear dynamically in a dropdown list.
-
-- Clicking a search result navigates directly to the product page.
-
-### Sorting
-
-- Products can be sorted by:
-  - Price (low → high)
-  - Price (high → low)
-  - Rating
-  - Title
+- Live search with a dropdown showing matching products as you type
+- Sort by price (low → high / high → low), rating, or title (A → Z)
 
 ### Shopping Cart
 
-- The cart system allows users to:
-  - Add products to the cart
-  - View cart item count in the header
-  - Adjust product quantities
-  - Remove items from the cart
-  - See the total cost update dynamically.
+- Add, remove, and adjust quantities
+- Product thumbnail shown for each cart item
+- Per-item subtotal and running total
+- Cart persists across page refreshes via localStorage
+- Item count badge displayed on the cart button in the header
 
 ### Checkout Flow
 
-- Users can proceed to checkout from the cart page.
-
-- After checkout:
-  - A success page is shown
-  - The cart is cleared.
+- Proceed to checkout from the cart page
+- Cart clears on successful checkout and a confirmation page is shown
 
 ### Contact Form
 
-The contact page includes a validated form built with TypeScript.
+- Validated form with inline error messages
+- Validation rules: Full Name (min 3 chars), Subject (min 3 chars), valid email format, Message (min 10 chars)
+- Form resets and shows a success message after submission
 
-- Validation rules:
-  - Full Name – minimum 3 characters
-  - Subject – minimum 3 characters
-  - Email – must be a valid email format
-  - Message – minimum 10 characters
+---
 
-- Features:
-  - Inline validation error messages
-  - Form reset after successful submission
-  - Success message displayed after submission.
+## Tech Stack
 
-### Tech Stack
+| Tool                                   | Purpose                         |
+| -------------------------------------- | ------------------------------- |
+| [Next.js](https://nextjs.org/)         | React framework with App Router |
+| TypeScript                             | Type safety                     |
+| Tailwind CSS                           | Styling                         |
+| React Context + useReducer             | Cart state management           |
+| localStorage                           | Cart persistence                |
+| [Noroff API](https://docs.noroff.dev/) | Product data                    |
+| Netlify                                | Deployment                      |
 
-- Framework: Next.js (React)
-- Language: TypeScript
-- Styling: Tailwind CSS
-- State Management: React Context API
-- API: Noroff Online Shop API
-- Deployment: Vercel
+---
 
-### Project Structure
+## Project Structure
 
-```bash
-src
- ├── app
- │   ├── product
- │   │   └── [productId]
- │   │       └── page.tsx
- │   ├── cart
- │   ├── checkout
- │   ├── contact
- │   ├── layout.tsx
- │   └── page.tsx
- │
- ├── components
- │   ├── Header.tsx
- │   ├── ProductCard.tsx
- │   └── SearchBar.tsx
- │
- ├── context
- │   └── CartContext.tsx
- │
- ├── lib
- │   ├── api.ts
- │   ├── types.ts
- │   └── utils.ts
+```
+src/
+├── app/
+│   ├── cart/
+│   │   └── page.tsx
+│   ├── contact/
+│   │   └── page.tsx
+│   ├── product/
+│   │   └── [productId]/
+│   │       └── page.tsx
+│   ├── success/
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── AddToCartButton.tsx
+│   ├── Header.tsx
+│   ├── ProductBrowser.tsx
+│   └── ProductCard.tsx
+├── context/
+│   └── CartContext.tsx
+└── lib/
+    ├── api.ts
+    ├── types.ts
+    └── utils.ts
 ```
 
-### Getting Started
+---
 
-1. Clone the repo
+## Getting Started
+
+### 1. Clone the repo
 
 ```bash
-git clone <your-repository-url>
-cd project-name
+git clone https://github.com/JKollerud/jsfw-2025-v1-jk-jsframeworks.git
+cd jsfw-2025-v1-jk-jsframeworks
 ```
 
-2. Install dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-3. Environment Variables
+### 3. Set up environment variables
 
-Create a `.env.local` file in the root of the project based on the provided `.env.example` file.
-
-This project uses the Noroff v2 API.
+Create a `.env.local` file in the root of the project:
 
 ```bash
 NEXT_PUBLIC_API_BASE_URL=https://v2.api.noroff.dev
 ```
 
-4. Run the development server
+### 4. Run the development server
 
 ```bash
 npm run dev
 ```
 
-Open:
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-```bash
-http://localhost:3000
+---
+
+## Deployment
+
+This project is deployed on Netlify. To deploy your own version:
+
+1. Push the project to GitHub
+2. Import the repo into Netlify
+3. Add the environment variable `NEXT_PUBLIC_API_BASE_URL=https://v2.api.noroff.dev`
+4. Deploy
+
+---
+
+## API
+
+Uses the [Noroff Online Shop API](https://docs.noroff.dev/).
+
+```
+GET /online-shop          – fetch all products
+GET /online-shop/<id>     – fetch a single product
 ```
 
-### Deployment
+---
 
-The project can be deployed using Vercel.
+## Author
 
-Steps:
-
-1. Push the project to GitHub.
-2. Import the repo into Vercel.
-3. Add the environment variable:
-
-```bash
-NEXT_PUBLIC_API_BASE_URL=https://v2.api.noroff.dev
-```
-
-4. Deploy.
-
-### API
-
-This project uses the Noroff Online Shop API.
-
-Endpoints used:
-
-```bash
-GET /online-shop
-GET /online-shop/<id>
-```
-
-Documentation:
-
-[f.dev/](https://docs.noroff.dev/)
-
-### Author
-
-Created as part of the JavaScript Frameworks course assignment.
-
-Student: Joakim Kollerud
+**Joakim Kollerud**
+Created as part of the JavaScript Frameworks course at Noroff.
