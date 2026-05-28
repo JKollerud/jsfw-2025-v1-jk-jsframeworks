@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="border-b bg-white">
-      <div className="mx-auto flex max-w-6-xl items-center justify-between p-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between p-4">
         <Link href="/" className="text-lg font-semibold text-black">
           Online Shop
         </Link>
@@ -18,9 +18,14 @@ export default function Header() {
           </Link>
           <Link
             href="/cart"
-            className="rounded-md bg-black px-3 py-2 text-sm text-white hover:opacity-90"
+            className="relative rounded-md bg-black px-3 py-2 text-sm text-white hover:opacity-90 transition-opacity"
           >
-            Cart ({itemCount})
+            🛒 Cart
+            {itemCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white animate-bounce">
+                {itemCount > 99 ? '99+' : itemCount}
+              </span>
+            )}
           </Link>
         </nav>
       </div>
