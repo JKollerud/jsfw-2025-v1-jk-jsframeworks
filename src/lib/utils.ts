@@ -1,16 +1,22 @@
-export function formatPrice(value: number): string {
+import { Product } from './types';
+
+export function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
+    style: 'currency',
+    currency: 'USD',
+  }).format(price);
 }
 
 export function getDiscountPercent(
   price: number,
   discountedPrice: number,
 ): number {
-  if (discountedPrice >= price) return 0;
+  return Math.round(((price - discountedPrice) / price) * 100);
+}
 
-  const percent = ((price - discountedPrice) / price) * 100;
-  return Math.round(percent);
+// Single source of truth for price logic used across cart, product card, etc.
+export function getEffectivePrice(product: Product): number {
+  return product.discountedPrice < product.price
+    ? product.discountedPrice
+    : product.price;
 }
