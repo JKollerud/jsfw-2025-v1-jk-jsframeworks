@@ -1,6 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useMemo, useReducer } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
 import type { CartItem, CartState, Product } from '@/lib/types';
 import { getEffectivePrice } from '@/lib/utils';
 
@@ -20,12 +26,18 @@ type Action =
   | { type: 'ADD'; product: Product }
   | { type: 'REMOVE'; productId: string }
   | { type: 'SET_QTY'; productId: string; quantity: number }
-  | { type: 'CLEAR' };
+  | { type: 'CLEAR' }
+  | { type: 'HYDRATE'; items: CartItem[] };
 
 const initialState: CartState = { items: [] };
 
+const STORAGE_KEY = 'cart';
+
 function cartReducer(state: CartState, action: Action): CartState {
   switch (action.type) {
+    case 'HYDRATE':
+      return { items: action.items };
+
     case 'ADD': {
       const existing = state.items.find(
         (i) => i.product.id === action.product.id,
@@ -74,6 +86,24 @@ function cartReducer(state: CartState, action: Action): CartState {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as CartItem[];
+        if (Array.isArray(parsed)) {
+          dispatch({ type: 'HYDRATE', items: parsed });
+        }
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
+    } catch {}
+  }, [state.items]);
 
   const itemCount = useMemo(
     () => state.items.reduce((sum, item) => sum + item.quantity, 0),
