@@ -9,7 +9,7 @@ export default function SuccessPage() {
       </p>
       <Link
         href="/"
-        className="mt-6 inline-block rounded-md bg-black px-4 py-2 text-white shadow-sm transition duration-200 hover:bg-gray-800 hover:shadow-md hover:scale-105 active:scale-95"
+        className="mt-6 inline-block rounded-md bg-indigo-600 px-4 py-2 text-white shadow-sm transition duration-200 hover:bg-indigo-700 hover:shadow-md hover:scale-105 active:scale-95"
       >
         Back to shop
       </Link>
