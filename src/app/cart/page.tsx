@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice, getEffectivePrice } from '@/lib/utils';
 
 export default function CartPage() {
   const router = useRouter();
@@ -27,42 +27,36 @@ export default function CartPage() {
       ) : (
         <>
           <div className="mt-6 space-y-4">
-            {items.map(({ product, quantity }) => {
-              const priceToUse =
-                product.discountedPrice < product.price
-                  ? product.discountedPrice
-                  : product.price;
-              return (
-                <div
-                  key={product.id}
-                  className="flex items-center justify-between gap-4 rounded-lg border bg-white p-4"
-                >
-                  <div className="min-w-0">
-                    <p className="font-medium text-black">{product.title}</p>
-                    <p className="text-sm text-black">
-                      {formatPrice(priceToUse)}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="number"
-                      min={1}
-                      value={quantity}
-                      onChange={(e) =>
-                        setQuantity(product.id, Number(e.target.value))
-                      }
-                      className="w-16 rounded-md border px-2 py-1 text-black"
-                    />
-                    <button
-                      onClick={() => removeFromCart(product.id)}
-                      className="text-sm text-red-600 hover:underline"
-                    >
-                      Remove
-                    </button>
-                  </div>
+            {items.map(({ product, quantity }) => (
+              <div
+                key={product.id}
+                className="flex items-center justify-between gap-4 rounded-lg border bg-white p-4"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium text-black">{product.title}</p>
+                  <p className="text-sm text-black">
+                    {formatPrice(getEffectivePrice(product))}
+                  </p>
                 </div>
-              );
-            })}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="number"
+                    min={1}
+                    value={quantity}
+                    onChange={(e) =>
+                      setQuantity(product.id, Number(e.target.value))
+                    }
+                    className="w-16 rounded-md border px-2 py-1 text-black"
+                  />
+                  <button
+                    onClick={() => removeFromCart(product.id)}
+                    className="text-sm text-red-600 hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
           <div className="mt-6 flex items-center justify-between">
             <p className="text-lg font-semibold">Total: {formatPrice(total)}</p>
